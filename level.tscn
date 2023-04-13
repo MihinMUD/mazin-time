@@ -1,78 +1,241 @@
-[gd_scene load_steps=11 format=3 uid="uid://dd5o3kjld5ffu"]
+[gd_scene load_steps=18 format=3 uid="uid://dd5o3kjld5ffu"]
 
+[ext_resource type="Script" path="res://src/level.gd" id="1_1kcws"]
 [ext_resource type="PackedScene" uid="uid://bug65s3xrs6n4" path="res://scenes/vehicle.tscn" id="2_bs8xj"]
-[ext_resource type="Script" path="res://src/Camera3D.gd" id="2_h8cd8"]
 [ext_resource type="PackedScene" uid="uid://lg3b3ququ3wd" path="res://scenes/grid.tscn" id="3_s6e1j"]
 [ext_resource type="PackedScene" uid="uid://clkpc3mmwn2cy" path="res://scenes/gate.tscn" id="4_jlvav"]
-[ext_resource type="PackedScene" uid="uid://cy5kf06opcvxr" path="res://scenes/win.tscn" id="5_e56os"]
-[ext_resource type="Script" path="res://src/JumpCounter.gd" id="6_dajp4"]
+[ext_resource type="Script" path="res://src/compass.gd" id="7_1387u"]
+[ext_resource type="Texture2D" uid="uid://cd8oujx2j4otc" path="res://assets/myassets/apple.png" id="7_w7a3s"]
 [ext_resource type="PackedScene" uid="uid://be1cg1d3st4ws" path="res://scenes/lose.tscn" id="7_y1gon"]
 
-[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_jhfbs"]
-sky_top_color = Color(0.580392, 0.784314, 0.768627, 1)
-sky_horizon_color = Color(0.862745, 0.811765, 0.737255, 1)
-sky_curve = 0.764736
-sky_energy_multiplier = 1.57
-ground_curve = 0.0221914
-sun_angle_max = 40.0
-sun_curve = 0.27991
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_xx5g8"]
+sky_top_color = Color(0, 0.533333, 0.333333, 1)
+sky_horizon_color = Color(0.537255, 0.67451, 0.780392, 1)
+sky_curve = 0.454715
+sky_energy_multiplier = 2.68
+ground_bottom_color = Color(0.266667, 0.215686, 0.168627, 1)
+ground_horizon_color = Color(0.635294, 0.67451, 0.541176, 1)
+ground_curve = 0.0141421
 
-[sub_resource type="Sky" id="Sky_c3x15"]
-sky_material = SubResource("ProceduralSkyMaterial_jhfbs")
+[sub_resource type="Sky" id="Sky_u658m"]
+sky_material = SubResource("ProceduralSkyMaterial_xx5g8")
 
-[sub_resource type="Environment" id="Environment_hj70o"]
+[sub_resource type="Environment" id="Environment_0tgvr"]
 background_mode = 2
-sky = SubResource("Sky_c3x15")
-tonemap_mode = 2
+sky = SubResource("Sky_u658m")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ijsi0"]
+bg_color = Color(0.172549, 0.172549, 0.172549, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4115o"]
+bg_color = Color(0.25098, 0.627451, 0.913725, 1)
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_36ed2"]
+bg_color = Color(0.270588, 0.270588, 0.270588, 1)
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_h8xxl"]
+bg_color = Color(1, 0.0862745, 0.25098, 1)
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
+
+[sub_resource type="Animation" id="Animation_iyqpm"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Black:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0, 0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_y3wmx"]
+resource_name = "new"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Black:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1, 2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 0), Color(0, 0, 0, 1), Color(0, 0, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_vm1wk"]
+_data = {
+"RESET": SubResource("Animation_iyqpm"),
+"new": SubResource("Animation_y3wmx")
+}
 
 [node name="Node3D" type="Node3D"]
+script = ExtResource("1_1kcws")
+lose = ExtResource("7_y1gon")
 
 [node name="player" parent="." instance=ExtResource("2_bs8xj")]
-transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 58, 2, 59)
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 60, 2, 60)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.68781, 0.725891, 0, -0.725891, 0.68781, 0, 4.67815, 5)
 
-[node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 7, 13)
-current = true
-script = ExtResource("2_h8cd8")
-z_change = 13
-y_change = 7
-player_path = NodePath("../player")
-
 [node name="grid" parent="." instance=ExtResource("3_s6e1j")]
+collision_mask = 0
 data = {
 "cells": PackedInt32Array(-65536, 0, 0, -65536, 1, 0, -65536, 2, 0, -65536, 3, 0, -65536, 4, 0, -65535, 4, 0, -65534, 4, 0, -65534, 5, 0, -65533, 5, 0, -65533, 6, 0, -65532, 6, 0, -65536, 5, 0, -65536, 6, 0, -65536, 7, 0, -65536, 8, 0, -65536, 9, 0, -65536, 10, 0, -65536, 11, 0, -65535, 12, 0, -65535, 13, 0, -65535, 14, 0, -65534, 14, 0, -65535, 15, 0, -65534, 15, 0, -65536, 15, 0, -65536, 14, 0, -65536, 13, 0, -65536, 12, 0, -65533, 15, 0, -65532, 15, 0, -65531, 15, 0, -65530, 15, 0, -65528, 15, 0, -65527, 15, 0, -65526, 15, 0, -65525, 15, 0, -65524, 15, 0, -65524, 14, 0, -65523, 14, 0, -65522, 14, 0, -65522, 15, 0, -65521, 15, 0, -65523, 15, 0, -65529, 15, 0, -65530, 14, 0, -65530, 13, 0, -65530, 12, 0, -65530, 11, 0, -65530, 10, 0, -65530, 9, 0, -65530, 8, 0, -65531, 8, 0, -65531, 7, 0, -65531, 6, 0, -65530, 5, 0, -65531, 5, 0, -65531, 4, 0, -65531, 3, 0, -65531, 2, 0, -65531, 1, 0, -65530, 0, 0, -65529, 0, 0, -65528, 0, 0, -65527, 0, 0, -65526, 0, 0, -65525, 0, 0, -65535, 0, 0, -65534, 0, 0, -65533, 0, 0, -65532, 0, 0, -65531, 0, 0, -65530, 1, 0, -65529, 1, 0, -65528, 1, 0, -65527, 1, 0, -65526, 1, 0, -65525, 1, 0, -65524, 1, 0, -65523, 0, 0, -65524, 0, 0, -65522, 0, 0, -65521, 0, 0, -65521, 1, 0, -65522, 1, 0, -65523, 1, 0, -65522, 2, 0, -65521, 2, 0, -65521, 3, 0, -65521, 4, 0, -65521, 5, 0, -65521, 6, 0, -65521, 7, 0, -65521, 8, 0, -65521, 9, 0, -65521, 10, 0, -65521, 11, 0, -65521, 12, 0, -65521, 13, 0, -65521, 14, 0, -65522, 13, 0, -65522, 12, 0, -65522, 11, 0, -65523, 11, 0, -65523, 9, 0, -65523, 8, 0, -65523, 7, 0, -65523, 6, 0, -65523, 5, 0, -65523, 4, 0, -65524, 4, 0, -65524, 3, 0, -65524, 2, 0, -65523, 2, 0, -65523, 3, 0, -65522, 3, 0, -65522, 4, 0, -65522, 5, 0, -65522, 6, 0, -65522, 7, 0, -65522, 8, 0, -65522, 9, 0, -65522, 10, 0, -65523, 12, 0, -65523, 13, 0, -65524, 13, 0, -65524, 12, 0, -65525, 11, 0, -65525, 10, 0, -65525, 9, 0, -65525, 7, 0, -65525, 6, 0, -65525, 5, 0, -65526, 4, 0, -65526, 3, 0, -65526, 2, 0, -65525, 2, 0, -65525, 3, 0, -65524, 7, 0, -65524, 8, 0, -65524, 9, 0, -65523, 10, 0, -65524, 11, 0, -65524, 10, 0, -65525, 4, 0, -65526, 9, 0, -65525, 8, 0, -65524, 5, 0, -65524, 6, 0, -65526, 8, 0, -65527, 8, 0, -65528, 8, 0, -65529, 8, 0, -65530, 7, 0, -65530, 6, 0, -65529, 5, 0, -65528, 5, 0, -65527, 5, 0, -65526, 6, 0, -65526, 7, 0, -65527, 7, 0, -65528, 7, 0, -65529, 7, 0, -65529, 6, 0, -65527, 6, 0, -65530, 3, 0, -65530, 2, 0, -65529, 2, 0, -65528, 2, 0, -65528, 3, 0, -65527, 4, 0, -65530, 4, 0, -65528, 4, 0, -65528, 6, 0, -65529, 4, 0, -65526, 5, 0, -65527, 3, 0, -65529, 3, 0, -65527, 2, 0, -65527, 9, 0, -65526, 10, 0, -65526, 11, 0, -65526, 12, 0, -65527, 12, 0, -65528, 12, 0, -65527, 13, 0, -65527, 14, 0, -65526, 14, 0, -65525, 14, 0, -65525, 13, 0, -65526, 13, 0, -65525, 12, 0, -65528, 13, 0, -65529, 13, 0, -65529, 14, 0, -65528, 14, 0, -65528, 11, 0, -65528, 10, 0, -65529, 10, 0, -65529, 9, 0, -65529, 11, 0, -65528, 9, 0, -65527, 10, 0, -65529, 12, 0, -65531, 13, 0, -65527, 11, 0, -65531, 14, 0, -65532, 14, 0, -65533, 14, 0, -65535, 11, 0, -65535, 6, 0, -65535, 5, 0, -65535, 3, 0, -65535, 2, 0, -65534, 2, 0, -65535, 1, 0, -65534, 1, 0, -65533, 1, 0, -65532, 1, 0, -65532, 2, 0, -65533, 2, 0, -65533, 3, 0, -65534, 3, 0, -65532, 4, 0, -65532, 5, 0, -65534, 6, 0, -65533, 4, 0, -65532, 3, 0, -65534, 7, 0, -65535, 7, 0, -65535, 8, 0, -65534, 9, 0, -65534, 10, 0, -65534, 11, 0, -65534, 12, 0, -65534, 13, 0, -65535, 10, 0, -65535, 9, 0, -65534, 8, 0, -65533, 8, 0, -65532, 8, 0, -65533, 9, 0, -65533, 10, 0, -65533, 11, 0, -65533, 12, 0, -65533, 13, 0, -65532, 13, 0, -65532, 12, 0, -65532, 11, 0, -65531, 11, 0, -65532, 10, 0, -65532, 9, 0, -65531, 9, 0, -65531, 10, 0, -65531, 12, 0, -65533, 7, 0, -65532, 7, 0)
 }
 metadata/_editor_floor_ = Vector3(0, 0, 0)
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource("Environment_hj70o")
+environment = SubResource("Environment_0tgvr")
 
 [node name="gate" parent="." instance=ExtResource("4_jlvav")]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 10, 2, 10)
-nextScene = ExtResource("5_e56os")
 
-[node name="Camera3D2" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.516533, 0.856267, 0, -0.856267, 0.516533, 35, 28, 59)
+[node name="HUD" type="Panel" parent="."]
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 64.0
+grow_horizontal = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_ijsi0")
 
-[node name="JumpCounter" type="Panel" parent="."]
-offset_right = 231.0
-offset_bottom = 90.0
-script = ExtResource("6_dajp4")
-lose = ExtResource("7_y1gon")
+[node name="Jump" type="Panel" parent="HUD"]
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 160.0
+offset_bottom = -8.0
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_4115o")
+metadata/_edit_group_ = true
 
-[node name="Label" type="Label" parent="JumpCounter"]
+[node name="Label" type="Label" parent="HUD/Jump"]
+layout_mode = 2
+offset_left = 8.0
+offset_right = 104.0
+offset_bottom = 48.0
+grow_vertical = 2
+theme_override_font_sizes/font_size = 20
+text = "Jumps"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Counter" type="Panel" parent="HUD/Jump"]
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -48.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_36ed2")
+
+[node name="Label" type="Label" parent="HUD/Jump/Counter"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_font_sizes/font_size = 27
-text = "Jumps:"
+theme_override_font_sizes/font_size = 25
+text = "1"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[connection signal="jumped" from="grid" to="JumpCounter" method="_on_grid_jumped"]
+[node name="Level" type="Panel" parent="HUD"]
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_left = 176.0
+offset_top = 8.0
+offset_right = 328.0
+offset_bottom = -8.0
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_h8xxl")
+metadata/_edit_group_ = true
+
+[node name="Label" type="Label" parent="HUD/Level"]
+layout_mode = 2
+offset_left = 8.0
+offset_right = 96.0
+offset_bottom = 48.0
+grow_vertical = 2
+theme_override_font_sizes/font_size = 20
+text = "Level"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Counter" type="Panel" parent="HUD/Level"]
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -48.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_36ed2")
+
+[node name="Label" type="Label" parent="HUD/Level/Counter"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 25
+text = "1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Compass" type="TextureRect" parent="." node_paths=PackedStringArray("start", "end")]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -128.0
+offset_top = -136.0
+grow_horizontal = 0
+grow_vertical = 0
+texture = ExtResource("7_w7a3s")
+script = ExtResource("7_1387u")
+start = NodePath("../player")
+end = NodePath("../gate")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_vm1wk")
+}
+
+[node name="Black" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0)
+
+[connection signal="scored" from="." to="grid" method="_on_node_3d_scored"]
+[connection signal="jumped" from="player" to="." method="_on_player_jumped"]
+[connection signal="jumped" from="player" to="grid" method="_on_player_jumped"]
+[connection signal="body_entered" from="gate" to="." method="_on_gate_body_entered"]

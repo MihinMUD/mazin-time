@@ -1,2 +1,2 @@
 # mazin-time
-A maze game with procedural maze generation.
+A maze game. with procedural maze generation.

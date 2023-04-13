@@ -1,7 +1,6 @@
-[gd_scene load_steps=5 format=3 uid="uid://clkpc3mmwn2cy"]
+[gd_scene load_steps=4 format=3 uid="uid://clkpc3mmwn2cy"]
 
 [ext_resource type="Texture2D" uid="uid://cd8oujx2j4otc" path="res://assets/myassets/apple.png" id="1_i20o8"]
-[ext_resource type="Script" path="res://src/gate.gd" id="1_ikyd3"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_3wt6u"]
 
@@ -10,7 +9,6 @@ albedo_texture = ExtResource("1_i20o8")
 texture_filter = 0
 
 [node name="gate" type="Area3D"]
-script = ExtResource("1_ikyd3")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("BoxShape3D_3wt6u")
@@ -19,5 +17,3 @@ shape = SubResource("BoxShape3D_3wt6u")
 transform = Transform3D(6.4, 0, 0, 0, 5.882, 0, 0, 0, 1, 0, 0, 0)
 material_override = SubResource("StandardMaterial3D_jktxh")
 texture = ExtResource("1_i20o8")
-
-[connection signal="body_entered" from="." to="." method="_on_body_entered"]
