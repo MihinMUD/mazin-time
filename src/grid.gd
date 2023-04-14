@@ -4,6 +4,8 @@ extends GridMap
 var level_size = Vector2(16,16)
 # defines the starting position 
 @onready var player = $"../player"
+const WALL = 0
+const SPACE = -1
 
 func _ready():
 	drawMap(makeMaze(level_size))
@@ -32,7 +34,7 @@ func makeMaze(size: Vector2) -> Array:
 	for x in range(width):
 		var col = []
 		for y in range(height):
-			col.append(0)
+			col.append(WALL)
 		maze.append(col)
 
 
@@ -41,18 +43,18 @@ func makeMaze(size: Vector2) -> Array:
 		var run_start = 1
 		for x in range(0, width, 2):
 			# Carve a clear space at the current position
-			maze[x][y] = -1
+			maze[x][y] = SPACE
 			# If we're not on the top row and either we're on the rightmost column or randomly decide to end the current run
 			if y > 1 and (x == width - 2 or randi_range(0,1) == 0):
 				# Choose a random position within the current run and carve a passage north
 				var run_end = x
 				var carve_x = randi_range(run_start, run_end)
-				maze[carve_x][y - 1] = -1
+				maze[carve_x][y - 1] = SPACE
 				# Start a new run
 				run_start = x + 2
 			# If we're not on the rightmost column, carve a passage east
 			elif x < width - 2:
-				maze[x + 1][y] = -1
+				maze[x + 1][y] = SPACE
 	
 	maze = cleanUpMaze(maze)
 	return maze
@@ -73,40 +75,40 @@ func cleanUpMaze(maze: Array) -> Array:
 	var playerX = floor(player.position.x / 4)
 	var playerY = floor(player.position.z / 4)
 	
-	maze[playerX][playerY] = -1
-	maze[playerX][playerY -1 ] = -1
-	maze[playerX - 1][playerY] = -1
+	maze[playerX][playerY] = SPACE
+	maze[playerX][playerY -1 ] = SPACE
+	maze[playerX - 1][playerY] = SPACE
 	
 	# Set the value of every cell around the border to 0
 	for x in range(width):
-		maze[x][0] = 0
-		maze[x][height - 1] = 0
+		maze[x][0] = WALL
+		maze[x][height - 1] = WALL
 	for y in range(height):
-		maze[0][y] = 0
-		maze[width - 1][y] = 0
+		maze[0][y] = WALL
+		maze[width - 1][y] = WALL
 		
 	var newMaze = maze
 	# Set the value of any cell with more than 3 adjacent walls to 0
 	for x in range(1, width - 1):
 		for y in range(1, height - 1):
 			var wall_count = 0
-			if maze[x - 1][y] == 0:
+			if maze[x - 1][y] == WALL:
 				wall_count += 1
-			if maze[x + 1][y] == 0:
+			if maze[x + 1][y] == WALL:
 				wall_count += 1
-			if maze[x][y - 1] == 0:
+			if maze[x][y - 1] == WALL:
 				wall_count += 1
-			if maze[x][y + 1] == 0:
+			if maze[x][y + 1] == WALL:
 				wall_count += 1
 			if wall_count > 3:
-				newMaze[x][y] = 0
+				newMaze[x][y] = WALL
 				
-	newMaze[width-2][height-2] = -1
+	newMaze[width-2][height-2] = SPACE
 	
-	newMaze[3][3] = -1
-	newMaze[3][2] = -1
-	newMaze[2][3] = -1
-	newMaze[2][2] = -1
+	newMaze[3][3] = SPACE
+	newMaze[3][2] = SPACE
+	newMaze[2][3] = SPACE
+	newMaze[2][2] = SPACE
 	
 	
 	

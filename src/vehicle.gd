@@ -17,8 +17,6 @@ func _physics_process(_delta):
 	direction += direction.normalized()
 	direction = direction.rotated(Vector3.UP, rotation.y)
 
-	print(direction)
-	
 	var rotateDirection = Input.get_axis("ui_right", "ui_left")
 	rotation.y += deg_to_rad(rotateDirection) * 1.4
 	velocity.x = direction.x * speed

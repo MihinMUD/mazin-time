@@ -1,6 +1,7 @@
 extends TextureRect
-@export var start:Node
-@export var end:Node
-func _process(delta):
-	var axis = rad_to_deg(start.position.angle_to(end.position))
-	rotation = axis
+
+@onready var player = $"../player"
+
+func _physics_process(_delta):
+	var playerPos = Vector2(player.position.x , player.position.z)
+	$player.position = playerPos * 2
