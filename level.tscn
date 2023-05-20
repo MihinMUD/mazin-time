@@ -248,6 +248,9 @@ position = Vector2(112, 120)
 scale = Vector2(0.125, 0.125)
 texture = ExtResource("7_npsia")
 
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(-1, -1.19585e-14, -8.74228e-08, -6.18172e-08, 0.707107, 0.707107, 6.18172e-08, 0.707107, -0.707107, 26, 26, -9)
+
 [connection signal="scored" from="." to="grid" method="_on_node_3d_scored"]
 [connection signal="jumped" from="player" to="." method="_on_player_jumped"]
 [connection signal="jumped" from="player" to="grid" method="_on_player_jumped"]
