@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://dojo7pl546bd0"]
+[gd_scene load_steps=22 format=3 uid="uid://dojo7pl546bd0"]
 
 [ext_resource type="Script" path="res://src/level.gd" id="1_1kcws"]
 [ext_resource type="PackedScene" uid="uid://c2irk6031qe07" path="res://scenes/player.tscn" id="2_bs8xj"]
@@ -6,7 +6,6 @@
 [ext_resource type="PackedScene" uid="uid://clkpc3mmwn2cy" path="res://scenes/gate.tscn" id="4_jlvav"]
 [ext_resource type="Script" path="res://src/compass.gd" id="7_1387u"]
 [ext_resource type="Texture2D" uid="uid://b0y7db3y8c083" path="res://icon.svg" id="7_npsia"]
-[ext_resource type="Texture2D" uid="uid://cd8oujx2j4otc" path="res://assets/myassets/apple.png" id="7_w7a3s"]
 [ext_resource type="PackedScene" uid="uid://be1cg1d3st4ws" path="res://scenes/lose.tscn" id="7_y1gon"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_xx5g8"]
@@ -24,6 +23,15 @@ sky_material = SubResource("ProceduralSkyMaterial_xx5g8")
 [sub_resource type="Environment" id="Environment_0tgvr"]
 background_mode = 2
 sky = SubResource("Sky_u658m")
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_82qg5"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_s4ej2"]
+diffuse_mode = 3
+specular_mode = 1
+albedo_color = Color(0.623529, 0.137255, 0.972549, 1)
+emission_enabled = true
+emission = Color(0.737255, 0.231373, 1, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ijsi0"]
 bg_color = Color(0.172549, 0.172549, 0.172549, 1)
@@ -44,6 +52,13 @@ corner_radius_bottom_left = 15
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_h8xxl"]
 bg_color = Color(1, 0.0862745, 0.25098, 1)
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6d0wg"]
+bg_color = Color(0.188235, 0.654902, 0, 1)
 corner_radius_top_left = 15
 corner_radius_top_right = 15
 corner_radius_bottom_right = 15
@@ -86,9 +101,17 @@ _data = {
 "new": SubResource("Animation_y3wmx")
 }
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_li4b4"]
+bg_color = Color(0, 0, 0, 0.662745)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
 [node name="Node3D" type="Node3D"]
 script = ExtResource("1_1kcws")
 lose = ExtResource("7_y1gon")
+timerIncrement = 5
 
 [node name="player" parent="." instance=ExtResource("2_bs8xj")]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 60, 2, 60)
@@ -108,6 +131,11 @@ environment = SubResource("Environment_0tgvr")
 
 [node name="gate" parent="." instance=ExtResource("4_jlvav")]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 10, 2, 10)
+
+[node name="beacon" type="MeshInstance3D" parent="gate"]
+transform = Transform3D(0.2, 0, 0, 0, -16.7651, 0, 0, 0, 0.216, 0, 14, -0.25)
+mesh = SubResource("CylinderMesh_82qg5")
+surface_material_override/0 = SubResource("StandardMaterial3D_s4ej2")
 
 [node name="HUD" type="Panel" parent="."]
 anchors_preset = 10
@@ -208,6 +236,52 @@ text = "1"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="Timer" type="Panel" parent="HUD"]
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_left = 344.0
+offset_top = 8.0
+offset_right = 496.0
+offset_bottom = -8.0
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_6d0wg")
+metadata/_edit_group_ = true
+
+[node name="Label" type="Label" parent="HUD/Timer"]
+layout_mode = 2
+offset_left = 8.0
+offset_right = 96.0
+offset_bottom = 48.0
+grow_vertical = 2
+theme_override_font_sizes/font_size = 20
+text = "Time"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Counter" type="Panel" parent="HUD/Timer"]
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -48.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_36ed2")
+
+[node name="Label" type="Label" parent="HUD/Timer/Counter"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 25
+text = "1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 "": SubResource("AnimationLibrary_vm1wk")
@@ -221,7 +295,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 0)
 
-[node name="Compass" type="TextureRect" parent="."]
+[node name="Compass" type="Panel" parent="."]
 anchors_preset = 3
 anchor_left = 1.0
 anchor_top = 1.0
@@ -231,15 +305,17 @@ offset_left = -128.0
 offset_top = -136.0
 grow_horizontal = 0
 grow_vertical = 0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-texture = ExtResource("7_w7a3s")
+size_flags_horizontal = 8
+size_flags_vertical = 8
+theme_override_styles/panel = SubResource("StyleBoxFlat_li4b4")
 script = ExtResource("7_1387u")
 
 [node name="gate" type="TextureRect" parent="Compass"]
 layout_mode = 0
-offset_right = 16.0
-offset_bottom = 16.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 24.0
+offset_bottom = 24.0
 texture = ExtResource("7_npsia")
 expand_mode = 1
 
@@ -248,10 +324,27 @@ position = Vector2(112, 120)
 scale = Vector2(0.125, 0.125)
 texture = ExtResource("7_npsia")
 
+[node name="Label" type="Label" parent="Compass"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 0.647059)
+theme_override_font_sizes/font_size = 97
+text = "?"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, -8.74228e-08, 8.74227e-08, 7.10543e-15, 0.707107, 0.707107, -1.23634e-07, -0.707107, 0.707107, 33, 26, 74)
+
+[node name="Timer" type="Timer" parent="."]
+autostart = true
 
 [connection signal="scored" from="." to="grid" method="_on_node_3d_scored"]
 [connection signal="jumped" from="player" to="." method="_on_player_jumped"]
 [connection signal="jumped" from="player" to="grid" method="_on_player_jumped"]
 [connection signal="body_entered" from="gate" to="." method="_on_gate_body_entered"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

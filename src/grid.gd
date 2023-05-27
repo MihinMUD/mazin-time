@@ -9,9 +9,6 @@ const SPACE = -1
 
 func _ready():
 	drawMap(makeMaze(level_size))
-# randomizes the board when space button is clicked
-func _process(_delta):
-	randomize()
 
 func _on_player_jumped():
 	drawMap(makeMaze(level_size))
@@ -24,6 +21,7 @@ func _on_node_3d_scored():
 # Each cell in the returned 2D array is represented by an integer where `0` represents a wall and `-1` represents a clear space.
 
 func makeMaze(size: Vector2):
+	randomize()
 	var width  = size.x
 	var height = size.y
 	var maze = []
@@ -54,15 +52,8 @@ func makeMaze(size: Vector2):
 				if maze[x - 1][y] == WALL and maze[x][y - 1] == WALL:
 					maze[x - 1][y] = SPACE
 					maze[x + 1][y] = SPACE
-	# Loop through the first and last rows
-	for x in range(width):
-		maze[x][0] = WALL
-		maze[x][height - 1] = WALL
-	for y in range(height):
-		maze[0][y] = WALL
-		maze[width - 1][y] = WALL
-		
-		
+					
+	# clear up player and gate blocks
 	var playerX = floor(player.position.x / 4)
 	var playerY = floor(player.position.z / 4)
 
@@ -74,6 +65,15 @@ func makeMaze(size: Vector2):
 	maze[3][2] = SPACE
 	maze[2][3] = SPACE
 	maze[2][2] = SPACE
+	# Loop through the first and last rows
+	for x in range(width):
+		maze[x][0] = WALL
+		maze[x][height - 1] = WALL
+	for y in range(height):
+		maze[0][y] = WALL
+		maze[width - 1][y] = WALL
+		
+		
 	
 	# returns a map array with 2 properties maze array and the size
 	return [maze, Vector2(width, height)]
