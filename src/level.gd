@@ -30,5 +30,5 @@ func _on_player_jumped():
 		get_tree().change_scene_to_packed(lose)
 
 
-func _on_gate_body_entered(body):
+func _on_gate_body_entered(_body):
 	newLevel()

@@ -3,6 +3,7 @@ extends CharacterBody3D
 var jumpHeight = 20
 var timeToJumpPeak = 20
 var speed = 5
+@warning_ignore("integer_division")
 var gravity = int(2 * jumpHeight / (timeToJumpPeak ^ 2))
 var jump = gravity * timeToJumpPeak
 @onready var camera = $Camera

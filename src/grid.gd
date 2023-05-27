@@ -14,14 +14,10 @@ func _process(_delta):
 	randomize()
 
 func _on_player_jumped():
-	emptyLevel(level_size)
-	var grid = makeMaze(level_size)
-	drawMap(grid)
+	drawMap(makeMaze(level_size))
 
 func _on_node_3d_scored():
-	emptyLevel(level_size)
-	var grid = makeMaze(level_size)
-	drawMap(grid)
+	drawMap(makeMaze(level_size))
 
 # Generates a maze using the Sidewinder algorithm and returns a 2D array representing the maze.
 # The size of the maze is specified by the `size` argument, which is a Vector2 where `x` is the width and `y` is the height of the maze.
@@ -56,8 +52,7 @@ func makeMaze(size: Vector2):
 			if randomDirection == "down":
 				maze[x][y + 1] = SPACE
 				if maze[x - 1][y] == WALL and maze[x][y - 1] == WALL:
-					maze[x + 1][y] == SPACE
-					maze[x - 1][y] == SPACE
+					maze[x - 1][y] = SPACE
 	# Loop through the first and last rows
 	for x in range(width):
 		maze[x][0] = WALL
@@ -69,28 +64,30 @@ func makeMaze(size: Vector2):
 		
 	var playerX = floor(player.position.x / 4)
 	var playerY = floor(player.position.z / 4)
-	
+
 	maze[playerX][playerY] = SPACE
 	maze[playerX][playerY -1 ] = SPACE
 	maze[playerX - 1][playerY] = SPACE
-	
+
 	maze[3][3] = SPACE
 	maze[3][2] = SPACE
 	maze[2][3] = SPACE
 	maze[2][2] = SPACE
-	return maze
+	
+	# returns a map array with 2 properties maze array and the size
+	return [maze, Vector2(width, height)]
 	
 # simply takes an input of an array that represents a maze and draws it on the grid map
-func drawMap(vector:Array):
+func drawMap(map:Array):
+	var vector = map[0]
+	var size = map[1]
+	#adds the floor 
+	for x in range(size.x):
+		for z in range(size.y):
+			set_cell_item(Vector3i(x,-1, z), WALL)
+	
+	# adds the maze
 	for x in range(vector.size()):
 		for z in range(vector[x].size()):
 			var pos = Vector3i(x,0,z)
 			set_cell_item(pos, vector[x][z])
-
-
-func emptyLevel(size:Vector2):
-	for x in range(size.x):
-		for z in range(size.y ):
-			set_cell_item(Vector3i(x,0, z), -1)
-
-
