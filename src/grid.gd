@@ -53,6 +53,7 @@ func makeMaze(size: Vector2):
 				maze[x][y + 1] = SPACE
 				if maze[x - 1][y] == WALL and maze[x][y - 1] == WALL:
 					maze[x - 1][y] = SPACE
+					maze[x + 1][y] = SPACE
 	# Loop through the first and last rows
 	for x in range(width):
 		maze[x][0] = WALL

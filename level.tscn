@@ -250,7 +250,6 @@ texture = ExtResource("7_npsia")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, -8.74228e-08, 8.74227e-08, 7.10543e-15, 0.707107, 0.707107, -1.23634e-07, -0.707107, 0.707107, 33, 26, 74)
-current = true
 
 [connection signal="scored" from="." to="grid" method="_on_node_3d_scored"]
 [connection signal="jumped" from="player" to="." method="_on_player_jumped"]
