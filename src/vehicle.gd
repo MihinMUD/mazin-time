@@ -1,12 +1,13 @@
 extends CharacterBody3D
 
+@onready var camera = $Camera
+
 var jumpHeight = 20
 var timeToJumpPeak = 20
 var speed = 5
 @warning_ignore("integer_division")
 var gravity = int(2 * jumpHeight / (timeToJumpPeak ^ 2))
 var jump = gravity * timeToJumpPeak
-@onready var camera = $Camera
 signal jumped
 
 
@@ -16,10 +17,8 @@ func _physics_process(_delta):
 	direction.z = Input.get_axis("up", "down")
 	direction.x = Input.get_axis("left", "right")
 	direction += direction.normalized()
-	direction = direction.rotated(Vector3.UP, rotation.y)
+	direction = direction.rotated(Vector3.UP, camera.rotation.y)
 
-	var rotateDirection = Input.get_axis("ui_right", "ui_left")
-	rotation.y += deg_to_rad(rotateDirection) * 1.4
 	velocity.x = direction.x * speed
 	velocity.z = direction.z * speed
 	

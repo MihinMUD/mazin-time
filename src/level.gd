@@ -46,3 +46,4 @@ func _on_timer_timeout():
 	timeCounter.text = str(time)
 	if time < 0:
 		get_tree().change_scene_to_packed(lose)
+

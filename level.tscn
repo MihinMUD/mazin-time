@@ -114,7 +114,7 @@ lose = ExtResource("7_y1gon")
 timerIncrement = 5
 
 [node name="player" parent="." instance=ExtResource("2_bs8xj")]
-transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 60, 2, 60)
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 62, 2, 58)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.68781, 0.725891, 0, -0.725891, 0.68781, 0, 4.67815, 5)
