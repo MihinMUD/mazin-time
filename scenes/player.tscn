@@ -2,14 +2,16 @@
 
 [ext_resource type="Script" path="res://src/vehicle.gd" id="1_7wp2g"]
 [ext_resource type="Texture2D" uid="uid://cd8oujx2j4otc" path="res://assets/myassets/apple.png" id="2_p8230"]
-[ext_resource type="ArrayMesh" uid="uid://d4mu222qjjn2v" path="res://assets/myassets/cube.res" id="3_vsvhl"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_exp2x"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nobse"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yi4ae"]
 albedo_texture = ExtResource("2_p8230")
-uv1_triplanar_sharpness = 0.615572
+uv1_scale = Vector3(3, 2, 1)
 texture_filter = 0
+
+[sub_resource type="BoxMesh" id="BoxMesh_2cqvq"]
+material = SubResource("StandardMaterial3D_yi4ae")
 
 [node name="Player" type="CharacterBody3D" groups=["player"]]
 script = ExtResource("1_7wp2g")
@@ -18,10 +20,9 @@ metadata/_edit_group_ = true
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("BoxShape3D_exp2x")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
-material_override = SubResource("StandardMaterial3D_nobse")
-mesh = ExtResource("3_vsvhl")
-
 [node name="Camera" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+current = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_2cqvq")

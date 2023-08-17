@@ -4,7 +4,8 @@ extends GridMap
 var level_size = Vector2(17,17)
 # defines the starting position 
 @onready var player = $"../player"
-const WALL = 0
+const FLOOR = 0
+const WALL = 1
 const SPACE = -1
 
 func _ready():
@@ -85,7 +86,7 @@ func drawMap(map:Array):
 	#adds the floor 
 	for x in range(size.x):
 		for z in range(size.y):
-			set_cell_item(Vector3i(x,-1, z), WALL)
+			set_cell_item(Vector3i(x,-1, z), FLOOR)
 	
 	# adds the maze
 	for x in range(vector.size()):
