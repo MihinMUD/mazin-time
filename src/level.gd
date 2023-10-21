@@ -1,9 +1,9 @@
 extends Node3D
 
 
-@onready var jumpCounter = $HUD/Jump/Counter/Label
-@onready var levelCounter = $HUD/Level/Counter/Label
-@onready var timeCounter = $HUD/Timer/Counter/Label
+@onready var jumpCounter = $HUD/Jump
+@onready var levelCounter = $HUD/Counter/Level/Counter/Label
+@onready var timeCounter = $HUD/Timer
 @onready var timer = $Timer
 
 @export var nextScene:PackedScene;

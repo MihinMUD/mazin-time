@@ -1,19 +1,15 @@
-[gd_scene load_steps=4 format=3 uid="uid://clkpc3mmwn2cy"]
+[gd_scene load_steps=3 format=3 uid="uid://clkpc3mmwn2cy"]
 
-[ext_resource type="Texture2D" uid="uid://cd8oujx2j4otc" path="res://assets/myassets/apple.png" id="1_i20o8"]
+[ext_resource type="PackedScene" uid="uid://dauq6f8tbprlo" path="res://assets/myassets/gate/gate.gltf" id="1_wlrm6"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_3wt6u"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jktxh"]
-albedo_texture = ExtResource("1_i20o8")
-texture_filter = 0
+size = Vector3(2, 2, 2)
 
 [node name="gate" type="Area3D"]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1)
 shape = SubResource("BoxShape3D_3wt6u")
 
-[node name="Sprite3D" type="Sprite3D" parent="."]
-transform = Transform3D(6.4, 0, 0, 0, 5.882, 0, 0, 0, 1, 0, 0, 0)
-material_override = SubResource("StandardMaterial3D_jktxh")
-texture = ExtResource("1_i20o8")
+[node name="gate" parent="." instance=ExtResource("1_wlrm6")]
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0, 0, 0)

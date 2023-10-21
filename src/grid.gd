@@ -54,7 +54,7 @@ func makeMaze(size: Vector2):
 					maze[x - 1][y] = SPACE
 					maze[x + 1][y] = SPACE
 					
-	# clear up player and gate blocks
+	# clear up blocks where player is
 	var playerX = floor(player.position.x / 4)
 	var playerY = floor(player.position.z / 4)
 
@@ -62,19 +62,20 @@ func makeMaze(size: Vector2):
 	maze[playerX][playerY -1 ] = SPACE
 	maze[playerX - 1][playerY] = SPACE
 
-	maze[3][3] = SPACE
-	maze[3][2] = SPACE
-	maze[2][3] = SPACE
-	maze[2][2] = SPACE
-	# Loop through the first and last rows
+	# set the border as a wall
 	for x in range(width):
 		maze[x][0] = WALL
 		maze[x][height - 1] = WALL
 	for y in range(height):
 		maze[0][y] = WALL
 		maze[width - 1][y] = WALL
-		
-		
+	
+	# clear up area where the gate is
+	maze[1][0] = SPACE
+	maze[1][1] = SPACE
+	maze[1][2] = SPACE
+	maze[2][1] = SPACE
+	maze[2][2] = SPACE
 	
 	# returns a map array with 2 properties maze array and the size
 	return [maze, Vector2(width, height)]
