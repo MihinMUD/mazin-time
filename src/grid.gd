@@ -54,13 +54,6 @@ func makeMaze(size: Vector2):
 					maze[x - 1][y] = SPACE
 					maze[x + 1][y] = SPACE
 					
-	# clear up blocks where player is
-	var playerX = floor(player.position.x / 4)
-	var playerY = floor(player.position.z / 4)
-
-	maze[playerX][playerY] = SPACE
-	maze[playerX][playerY -1 ] = SPACE
-	maze[playerX - 1][playerY] = SPACE
 
 	# set the border as a wall
 	for x in range(width):
@@ -70,17 +63,22 @@ func makeMaze(size: Vector2):
 		maze[0][y] = WALL
 		maze[width - 1][y] = WALL
 	
-	# clear up area where the gate is
-	maze[1][0] = SPACE
-	maze[1][1] = SPACE
-	maze[1][2] = SPACE
-	maze[2][1] = SPACE
-	maze[2][2] = SPACE
-	
+
 	# returns a map array with 2 properties maze array and the size
 	return [maze, Vector2(width, height)]
 	
 # simply takes an input of an array that represents a maze and draws it on the grid map
+func clearAround(pos:Vector2):
+	var around = [
+		pos,
+		pos + Vector2.UP,
+		pos + Vector2.DOWN,
+		pos + Vector2.LEFT,
+		pos + Vector2.RIGHT
+	]
+	for direction in around:
+		set_cell_item(Vector3i(direction.x, 0, direction.y), SPACE)
+
 func drawMap(map:Array):
 	var vector = map[0]
 	var size = map[1]
@@ -94,3 +92,7 @@ func drawMap(map:Array):
 		for z in range(vector[x].size()):
 			var pos = Vector3i(x,0,z)
 			set_cell_item(pos, vector[x][z])
+	
+	# clears starting and ending positions
+	clearAround(Vector2(size.x-3,size.y-2))
+	clearAround(Vector2(2,1))

@@ -14,6 +14,7 @@ texture_filter = 0
 material = SubResource("StandardMaterial3D_yi4ae")
 
 [node name="Player" type="CharacterBody3D" groups=["player"]]
+collision_layer = 2
 script = ExtResource("1_7wp2g")
 metadata/_edit_group_ = true
 

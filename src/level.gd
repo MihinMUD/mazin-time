@@ -2,7 +2,7 @@ extends Node3D
 
 
 @onready var jumpCounter = $HUD/Jump
-@onready var levelCounter = $HUD/Counter/Level/Counter/Label
+@onready var levelCounter = $HUD/Level
 @onready var timeCounter = $HUD/Timer
 @onready var timer = $Timer
 
@@ -16,16 +16,16 @@ signal scored
 var level = 1
 
 func _ready():
-	jumpCounter.text = str(jump)
-	levelCounter.text = str(level)
+	jumpCounter.text = "Jumps: " + str(jump)
+	levelCounter.text = "Level: " + str(level)
 	timeCounter.text = str(time)
 
 
 func newLevel():
-	$AnimationPlayer.play("new")
+	# $AnimationPlayer.play("new")
 	level += 1
 	levelCounter.text = str(level)
-	$player.position = Vector3(58,2,58)
+	$player.position = Vector3(62,0,84)
 	emit_signal("scored")
 	
 	
@@ -36,13 +36,14 @@ func _on_player_jumped():
 		get_tree().change_scene_to_packed(lose)
 
 
-func _on_gate_body_entered(_body):
-	time += timerIncrement
-	newLevel()
-
 
 func _on_timer_timeout():
 	time -= 1
 	timeCounter.text = str(time)
 	if time < 0:
 		get_tree().change_scene_to_packed(lose)
+
+
+func _on_gate_on_entered(_body):
+	time += timerIncrement
+	newLevel()

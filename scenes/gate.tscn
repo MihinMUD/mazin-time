@@ -1,15 +1,42 @@
-[gd_scene load_steps=3 format=3 uid="uid://clkpc3mmwn2cy"]
+[gd_scene load_steps=5 format=3 uid="uid://clkpc3mmwn2cy"]
 
+[ext_resource type="Script" path="res://src/gate.gd" id="1_voc66"]
 [ext_resource type="PackedScene" uid="uid://dauq6f8tbprlo" path="res://assets/myassets/gate/gate.gltf" id="1_wlrm6"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_3wt6u"]
-size = Vector3(2, 2, 2)
+size = Vector3(2, 2, 0.5)
 
-[node name="gate" type="Area3D"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_44506"]
+size = Vector3(5.5, 2, 5)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1)
-shape = SubResource("BoxShape3D_3wt6u")
+[node name="gate" type="Node3D"]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
+script = ExtResource("1_voc66")
 
 [node name="gate" parent="." instance=ExtResource("1_wlrm6")]
 transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0, 0, 0)
+
+[node name="enterDetect" type="Area3D" parent="."]
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="enterDetect"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("BoxShape3D_3wt6u")
+
+[node name="gateOpenDetect" type="Area3D" parent="."]
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="gateOpenDetect"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 2)
+shape = SubResource("BoxShape3D_44506")
+
+[node name="Wall" type="StaticBody3D" parent="."]
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Wall"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("BoxShape3D_3wt6u")
+
+[connection signal="body_entered" from="enterDetect" to="." method="_on_enter_detect_body_entered"]
+[connection signal="body_entered" from="gateOpenDetect" to="." method="_on_gate_open_detect_body_entered"]
+[connection signal="body_exited" from="gateOpenDetect" to="." method="_on_gate_open_detect_body_exited"]
